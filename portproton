@@ -188,17 +188,17 @@ $yad_gui --progress --pulsate --title="$loc_install" --text="$loc_install" \
 		 --close-on-unfocus --no-buttons --skip-taskbar --width=500 &>/dev/null &
 sleep 1
 
-echo -e "Try download scripts from git.linux-gaming.ru..."
+echo -e "Try download scripts from jorge-trivilin fork (patched version)..."
 if ! curl -f -# -A "Mozilla/5.0 (compatible; Konqueror/2.1.1; X11)" -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' \
-		-L "https://git.linux-gaming.ru/CastroFidel/PortWINE/archive/master.tar.gz" \
+		-L "https://github.com/jorge-trivilin/PortWINE/archive/refs/heads/devel.tar.gz" \
 		-o "${PORT_WINE_TMP_PATH}/PortWINE-master.tar.gz"
 then
-	echo -e "\nError.\nTry download scripts from gitlab.eterfund.ru..."
+	echo -e "\nError.\nTry download scripts from git.linux-gaming.ru (upstream)..."
 	if ! curl -f -# -A "Mozilla/5.0 (compatible; Konqueror/2.1.1; X11)" -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' \
-		-L "https://gitlab.eterfund.ru/Castro-Fidel/PortWINE/-/archive/master/PortWINE-master.tar.gz" \
+		-L "https://git.linux-gaming.ru/CastroFidel/PortWINE/archive/master.tar.gz" \
 		-o "${PORT_WINE_TMP_PATH}/PortWINE-master.tar.gz"
 	then
-		echo -e "\nError.\nTry download scripts from github.com..."
+		echo -e "\nError.\nTry download scripts from github.com (upstream)..."
 		curl -f -# -A "Mozilla/5.0 (compatible; Konqueror/2.1.1; X11)" -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' \
 		-L "https://github.com/Castro-Fidel/PortWINE/archive/refs/heads/master.tar.gz" \
 		-o "${PORT_WINE_TMP_PATH}/PortWINE-master.tar.gz"
@@ -212,6 +212,9 @@ if [ "$?" = "0" ] ; then
 	if [[ -d "${PORT_WINE_TMP_PATH}/portwine" ]] ; then
 		cp -fr "${PORT_WINE_TMP_PATH}/portwine/data_from_portwine/"* "${PORT_WINE_DATA_PATH}"
 		rm -fr "${PORT_WINE_TMP_PATH}/portwine/"
+	elif [[ -d "${PORT_WINE_TMP_PATH}/PortWINE-devel" ]] ; then
+		cp -fr "${PORT_WINE_TMP_PATH}/PortWINE-devel/data_from_portwine/"* "${PORT_WINE_DATA_PATH}"
+		rm -fr "${PORT_WINE_TMP_PATH}/PortWINE-devel/"
 	else
 		cp -fr "${PORT_WINE_TMP_PATH}/PortWINE-master/data_from_portwine/"* "${PORT_WINE_DATA_PATH}"
 		rm -fr "${PORT_WINE_TMP_PATH}/PortWINE-master/"
